@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(qbootctl-gtk C)
+project(qbootctl-gui C)
 
 set(CMAKE_C_STANDARD 99)
 
@@ -26,5 +26,5 @@ file(GLOB SRC_FILES
 # Exclude main entry file of qbootctl.c
 list(REMOVE_ITEM SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/lib/qbootctl/qbootctl.c")
 
-add_executable(qbootctl-gtk ${SRC_FILES})
-target_link_libraries(qbootctl-gtk ${GTK3_LIBRARIES})
+add_executable(qbootctl-gui ${SRC_FILES})
+target_link_libraries(qbootctl-gui ${GTK3_LIBRARIES})
