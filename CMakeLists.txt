@@ -1,13 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
 project(qbootctl-gui C)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# GTK
+# Dependencies
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 
-# Include GTK and third-party includes
+# Check for linux/bsg.h
+include(CheckIncludeFile)
+check_include_file("linux/bsg.h" HAVE_LINUX_BSG_H)
+if(NOT HAVE_LINUX_BSG_H)
+    message(FATAL_ERROR "linux-headers not found: linux/bsg.h is missing")
+endif()
+
+# Includes
 include_directories(
     ${GTK3_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/includes
