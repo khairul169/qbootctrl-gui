@@ -1,0 +1,3 @@
+[submodule "lib/qbootctl"]
+	path = lib/qbootctl
+	url = https://github.com/khairul169/qbootctl.git

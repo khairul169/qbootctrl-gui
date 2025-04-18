@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "bitset": "c",
+        "algorithm": "c",
+        "format": "c",
+        "unistd.h": "c",
+        "socket.h": "c",
+        "stat.h": "c",
+        "cstdint": "c",
+        "utility.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
