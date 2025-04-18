@@ -1,20 +1,37 @@
-# QBootControl GUI
+# 🔄 QBootControl GUI
 
-![Preview](misc/preview.jpg)
+<p align="center">
+  <a target="_blank" href="https://raw.githubusercontent.com/khairul169/qbootctrl-gui/refs/heads/main/misc/preview.jpg">
+    <img src="misc/preview.jpg" width="240px" />
+  </a>
+</p>
 
-**QBootControl** is a simple GUI frontend for [`qbootctl`](https://github.com/your-repo/qbootctl), allowing you to easily toggle the active Android boot slot from a graphical interface.
+**QBootControl** is a simple GUI frontend for [`qbootctl`](https://github.com/linux-msm/qbootctl), allowing you to easily toggle the active Android boot slot from a graphical interface.
 
----
+This app is heavily inspired by capntrips's [BootControl](https://github.com/capntrips/BootControl).
 
-## Features
+## 🚀 Features
 
 - View current boot slot
 - Toggle between A/B slots
 - Minimal and clean GTK-based UI
 
----
+## ⚠️ Warning
 
-## Build Instructions
+> BIG WARNING: Use at your own risk.
+
+This application uses `qbootctl` to toggle Android boot slots, which directly interacts with your device's bootloader.
+This may or may not render your hardware unusable or unbootable.
+Make sure you know what you're doing before using this tool.
+
+⚠️ You have been warned. ⚠️ 
+
+## 🔍 Status
+
+- ✅ Fully tested on pipa: Arch Linux
+- ⚠️ Not yet tested on PostmarketOS
+
+## 🛠️ Build Instructions
 
 ### Dependencies
 
@@ -46,7 +63,7 @@ sudo apk add gtk+3.0-dev cmake build-base pkgconf linux-headers
 ### Build Steps
 
 ```bash
-git clone https://github.com/khairul169/qbootctrl-gui.git
+git clone --recurse-submodules https://github.com/khairul169/qbootctrl-gui.git
 cd qbootctrl-gui
 mkdir build && cd build
 cmake ..
@@ -71,7 +88,7 @@ To remove the installed files:
 sudo make uninstall
 ```
 
-## Credits
+## 🙌 Credits
 
 Huge thanks to the original contributor of [qbootctl](https://github.com/linux-msm/qbootctl) for porting it from the AOSP source. Your work made this tool possible.
 
@@ -82,6 +99,6 @@ Gratitude also goes out to the awesome folks in the Xiaomi Pad 6 Mainline Linux 
 Telegram group: t.me/pipa_mainline
 
 
-## License
+## 📄 License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
