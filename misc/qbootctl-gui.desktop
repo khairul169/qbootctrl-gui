@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Boot Control
+Comment=GUI app for qbootctl that toggles the active Android boot slot.
+Exec=/usr/local/bin/qbootctl-gui
+Icon=system-reboot-symbolic
+Terminal=false
+Type=Application
+Categories=Utility;System;
