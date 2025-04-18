@@ -6,6 +6,19 @@
 const struct boot_control_module *ctl = &bootctl;
 
 GtkWidget *lbl_curSlot;
+GtkWidget *btn_activateSlot[2];
+
+void set_active_slot(int id)
+{
+    char str[32];
+    snprintf(str, sizeof(str), "Current Slot: <b>%s</b>", get_slot_name(id));
+    gtk_label_set_markup(GTK_LABEL(lbl_curSlot), str);
+
+    for (int i = 0; i < 2; i++)
+    {
+        gtk_widget_set_sensitive(btn_activateSlot[i], i != id);
+    }
+}
 
 void on_activate_slot(gpointer user_data)
 {
@@ -18,9 +31,7 @@ void on_activate_slot(gpointer user_data)
     if (response != GTK_RESPONSE_YES)
         return;
 
-    char str[32];
-    snprintf(str, sizeof(str), "Current Slot: <b>%s</b>", name);
-    gtk_label_set_markup(GTK_LABEL(lbl_curSlot), str);
+    set_active_slot(id);
 
     char cmd[32];
     snprintf(cmd, sizeof(cmd), "activate %d", id);
@@ -47,6 +58,10 @@ void on_activate_slot(gpointer user_data)
 
 void build_device_info(GtkWidget *container, int curSlot)
 {
+    // Get system details
+    struct sys_details_t sys = {0};
+    get_sys_details(&sys);
+
     // Device Detail
     GtkWidget *card = gtk_frame_new(NULL);
     gtk_box_pack_start(GTK_BOX(container), card, FALSE, FALSE, 0);
@@ -60,6 +75,20 @@ void build_device_info(GtkWidget *container, int curSlot)
     gtk_label_set_xalign(GTK_LABEL(lbl_title), 0.0f);
     gtk_widget_set_margin_bottom(lbl_title, 10);
     gtk_box_pack_start(GTK_BOX(box), lbl_title, FALSE, FALSE, 0);
+
+    GtkWidget *lbl_os = gtk_label_new(NULL);
+    char m_osStr[96];
+    snprintf(m_osStr, sizeof(m_osStr), "OS: %s", sys.distro);
+    gtk_label_set_markup(GTK_LABEL(lbl_os), m_osStr);
+    gtk_label_set_xalign(GTK_LABEL(lbl_os), 0.0f);
+    gtk_box_pack_start(GTK_BOX(box), lbl_os, FALSE, FALSE, 0);
+
+    GtkWidget *lbl_kernel = gtk_label_new(NULL);
+    char m_kernelStr[96];
+    snprintf(m_kernelStr, sizeof(m_kernelStr), "Kernel: %s", sys.kernel);
+    gtk_label_set_markup(GTK_LABEL(lbl_kernel), m_kernelStr);
+    gtk_label_set_xalign(GTK_LABEL(lbl_kernel), 0.0f);
+    gtk_box_pack_start(GTK_BOX(box), lbl_kernel, FALSE, FALSE, 0);
 
     lbl_curSlot = gtk_label_new(NULL);
     char m_curSlotStr[32];
@@ -110,10 +139,12 @@ void build_slot_card(GtkWidget *container, int id, struct slot_info *slot)
     gtk_label_set_xalign(GTK_LABEL(lbl_active), 0.0f);
     gtk_box_pack_start(GTK_BOX(box), lbl_active, FALSE, FALSE, 0);
 
-    GtkWidget *btn_activate = gtk_button_new_with_label("Activate");
-    g_signal_connect_swapped(btn_activate, "clicked", G_CALLBACK(on_activate_slot), GINT_TO_POINTER(id));
-    gtk_widget_set_margin_top(btn_activate, 16);
-    gtk_box_pack_start(GTK_BOX(box), btn_activate, FALSE, FALSE, 0);
+    GtkWidget *btn_act = gtk_button_new_with_label("Activate");
+    g_signal_connect_swapped(btn_act, "clicked", G_CALLBACK(on_activate_slot), GINT_TO_POINTER(id));
+    gtk_widget_set_margin_top(btn_act, 16);
+    gtk_box_pack_start(GTK_BOX(box), btn_act, FALSE, FALSE, 0);
+    gtk_widget_set_sensitive(btn_act, !slot->active);
+    btn_activateSlot[id] = btn_act;
 }
 
 void build_main_window(GtkApplication *app, gpointer user_data)
